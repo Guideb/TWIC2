@@ -8,4 +8,8 @@ public interface VilleBLO {
 
 	public ArrayList<Ville> getInfoVille();
 	
+	public ArrayList<Ville> getSelectionVille(Ville ville);
+	
+	public boolean addAVille(Ville ville);
+	
 }

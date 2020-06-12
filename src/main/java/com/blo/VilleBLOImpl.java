@@ -15,10 +15,23 @@ public class VilleBLOImpl implements VilleBLO {
 	private VilleDAO villeDAO;
 	
 	public ArrayList<Ville> getInfoVille() {
-		ArrayList<Ville> ville;
+		ArrayList<Ville> villes;
 		
-		ville = villeDAO.findAllVilles();
-		return ville;
+		villes = villeDAO.findAllVilles();
+		return villes;
+	}
+
+	@Override
+	public ArrayList<Ville> getSelectionVille(Ville ville) {
+		ArrayList<Ville> villes;
+		
+		villes = villeDAO.findSomeVilles(ville);
+		return villes;
+	}
+
+	@Override
+	public boolean addAVille(Ville ville) {
+		return villeDAO.addVille(ville);
 	}
 
 }
