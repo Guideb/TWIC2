@@ -34,4 +34,14 @@ public class VilleBLOImpl implements VilleBLO {
 		return villeDAO.addVille(ville);
 	}
 
+	@Override
+	public boolean modifAVille(Ville ville) {
+		return villeDAO.modifVille(ville);
+	}
+
+	@Override
+	public boolean deleteAVille(Ville ville) {
+		return villeDAO.deleteVille(ville);
+	}
+
 }

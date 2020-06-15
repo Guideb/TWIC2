@@ -59,7 +59,7 @@ class VilleController {
 		return villes;
 	}
 	
-	// Methode GETBis
+	// Methode POST
 		@RequestMapping(value = "/ville", method = RequestMethod.POST)
 		@ResponseBody
 		public String postVille(
@@ -88,6 +88,70 @@ class VilleController {
 			}
 			else {
 				return "Echec de l'ajout";
+			}
+		}
+		
+		// Methode PUT
+		@RequestMapping(value = "/ville", method = RequestMethod.PUT)
+		@ResponseBody
+		public String putVille(
+				@RequestParam(required = false, value = "codeCommune") String codeCommune,
+				@RequestParam(required = false, value = "nom_commune") String nom_commune,
+				@RequestParam(required = false, value = "codePostal") String codePostal,
+				@RequestParam(required = false, value = "latitude") String latitude,
+				@RequestParam(required = false, value = "longitude") String longitude,
+				@RequestParam(required = false, value = "libelle_acheminement") String libelle_acheminement,
+				@RequestParam(required = false, value = "ligne_5") String ligne_5) {
+			
+			System.out.println("Appel PUT");
+			
+			Ville ville = new Ville();
+			ville.setCodeCommune(codeCommune);
+			ville.setNomCommune(nom_commune);
+			ville.setCodePostal(codePostal);
+			ville.setLatitude(latitude);
+			ville.setLongitude(longitude);
+			ville.setLibelleAcheminement(libelle_acheminement);
+			ville.setLigne_5(ligne_5);
+			
+			
+			if(villeBLOService.modifAVille(ville)) {
+				return "Modification effectué avec succès";
+			}
+			else {
+				return "Echec de la modification";
+			}
+		}
+		
+		// Methode DELETE
+		@RequestMapping(value = "/ville", method = RequestMethod.DELETE)
+		@ResponseBody
+		public String deleteVille(
+				@RequestParam(required = false, value = "codeCommune") String codeCommune,
+				@RequestParam(required = false, value = "nom_commune") String nom_commune,
+				@RequestParam(required = false, value = "codePostal") String codePostal,
+				@RequestParam(required = false, value = "latitude") String latitude,
+				@RequestParam(required = false, value = "longitude") String longitude,
+				@RequestParam(required = false, value = "libelle_acheminement") String libelle_acheminement,
+				@RequestParam(required = false, value = "ligne_5") String ligne_5) {
+			
+			System.out.println("Appel DELETE");
+			
+			Ville ville = new Ville();
+			ville.setCodeCommune(codeCommune);
+			ville.setNomCommune(nom_commune);
+			ville.setCodePostal(codePostal);
+			ville.setLatitude(latitude);
+			ville.setLongitude(longitude);
+			ville.setLibelleAcheminement(libelle_acheminement);
+			ville.setLigne_5(ligne_5);
+			
+			
+			if(villeBLOService.deleteAVille(ville)) {
+				return "Suppression effectué avec succès";
+			}
+			else {
+				return "Echec de la suppresion";
 			}
 		}
 }

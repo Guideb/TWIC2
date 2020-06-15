@@ -123,8 +123,6 @@ public class VilleDAOImpl implements VilleDAO {
 		requete = requete.substring(0, requete.length() - 1);
 		requete += ")";
 
-		System.out.println(requete);
-
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(requete);
@@ -142,6 +140,83 @@ public class VilleDAOImpl implements VilleDAO {
 			return "'NULL',";
 		}
 
+	}
+
+	// Modifie la ville dont le numero de commune est donné dans la ville en
+	// parametre et lui donnes les autres parametres donnés dans la ville.
+
+	@Override
+	public boolean modifVille(Ville ville) {
+		String requete = "UPDATE ville_france SET ";
+		String requeteWhere = " WHERE Code_commune_INSEE = '" + ville.getCodeCommune() + "'";
+
+		String[][] attributs = { ATTRIBUTS_VILLE,
+				{ ville.getCodeCommune(), ville.getNomCommune(), ville.getCodePostal(), ville.getLatitude(),
+						ville.getLongitude(), ville.getLibelleAcheminement(), ville.getLigne_5() } };
+
+		Connection con = JDBCConfiguration.getConnection();
+
+		boolean conditionSQL = false;
+		for (int i = 1; i < attributs[0].length; i++) {
+			if (attributs[1][i] != null) {
+				if (conditionSQL) {
+					requete += ", ";
+				}
+				requete += attributs[0][i] + "='" + attributs[1][i] + "'";
+				conditionSQL = true;
+			}
+		}
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate(requete + requeteWhere);
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Une erreur s'est produite.");
+			return false;
+		}
+	}
+
+	// DELETE toutes les villes dont les caracteristiques correspondent à celle
+	// donnée en paramètre
+	@Override
+	public boolean deleteVille(Ville ville) {
+		String requete = "DELETE FROM ville_france";
+		String requeteWhere = " WHERE ";
+
+		String[][] attributs = { ATTRIBUTS_VILLE,
+				{ ville.getCodeCommune(), ville.getNomCommune(), ville.getCodePostal(), ville.getLatitude(),
+						ville.getLongitude(), ville.getLibelleAcheminement(), ville.getLigne_5() } };
+
+		Connection con = JDBCConfiguration.getConnection();
+
+		// Creation String condition
+		boolean conditionSQL = false;
+		for (int i = 0; i < attributs[0].length; i++) {
+			if (attributs[1][i] != null) {
+				if (conditionSQL) {
+					requeteWhere += "AND ";
+				}
+				requeteWhere += attributs[0][i] + "='" + attributs[1][i] + "' ";
+				conditionSQL = true;
+			}
+		}
+
+		// Assemblage des Strings requete
+		String requeteFinale = requete;
+		if (conditionSQL) {
+			requeteFinale += requeteWhere;
+		}
+
+		System.out.println(requete + requeteWhere);
+		
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate(requeteFinale);
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Une erreur s'est produite.");
+			return false;
+		}
 	}
 
 }

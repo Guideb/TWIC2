@@ -12,4 +12,8 @@ public interface VilleBLO {
 	
 	public boolean addAVille(Ville ville);
 	
+	public boolean modifAVille(Ville ville);
+	
+	public boolean deleteAVille(Ville ville);
+	
 }

@@ -11,6 +11,8 @@ public interface VilleDAO {
 	public ArrayList<Ville> findSomeVilles(Ville ville);
 	
 	public boolean addVille(Ville ville);
-	//2
-
+	
+	public boolean modifVille(Ville ville);
+	
+	public boolean deleteVille(Ville ville);
 }
