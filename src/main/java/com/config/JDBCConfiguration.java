@@ -24,14 +24,14 @@ public class JDBCConfiguration {
 		try {
 			Class.forName(dbDriver);
 			// création de la connexion
-            if(connection == null) {
+            //if(connection == null) {
             	connection = DriverManager.getConnection(url, user, password);
-            }
+            //}
 		} catch (ClassNotFoundException e) {
-			System.out.println("Erreur pendant la récupération du driver (" + dbDriver + ")" + e);
+			//System.out.println("Erreur pendant la récupération du driver (" + dbDriver + ")" + e);
 			e.printStackTrace();
 		} catch (SQLException e1) {
-			System.out.println("Erreur pendant la creation de la connexion à la BDD." + e1);
+			//System.out.println("Erreur pendant la creation de la connexion à la BDD." + e1);
 			e1.printStackTrace();
 		}
 		return connection;

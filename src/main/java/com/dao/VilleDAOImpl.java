@@ -39,6 +39,7 @@ public class VilleDAOImpl implements VilleDAO {
 			}
 			rs.close();
 			stmt.close();
+			con.close();
 			return villes;
 		} catch (SQLException e) {
 			System.out.println("Une erreur s'est produite.");
@@ -92,6 +93,7 @@ public class VilleDAOImpl implements VilleDAO {
 			}
 			rs.close();
 			stmt.close();
+			con.close();
 			return villes;
 		} catch (SQLException e) {
 			System.out.println("Une erreur s'est produite.");
@@ -132,6 +134,7 @@ public class VilleDAOImpl implements VilleDAO {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(requete);
 			stmt.close();
+			con.close();
 			return true;
 		} catch (SQLException e) {
 			System.out.println("Une erreur s'est produite.");
@@ -176,6 +179,7 @@ public class VilleDAOImpl implements VilleDAO {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(requete + requeteWhere);
 			stmt.close();
+			con.close();
 			return true;
 		} catch (SQLException e) {
 			System.out.println("Une erreur s'est produite.");
@@ -220,6 +224,7 @@ public class VilleDAOImpl implements VilleDAO {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(requeteFinale);
 			stmt.close();
+			con.close();
 			return true;
 		} catch (SQLException e) {
 			System.out.println("Une erreur s'est produite.");
