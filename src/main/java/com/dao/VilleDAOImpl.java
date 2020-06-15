@@ -14,7 +14,7 @@ import com.dto.Ville;
 @Repository
 public class VilleDAOImpl implements VilleDAO {
 
-	private final static String[] ATTRIBUTS_VILLE = { "Code_commune_INSEE", "Nom_commune", "Code_postal", "Latitude",
+	private static final String[] ATTRIBUTS_VILLE = { "Code_commune_INSEE", "Nom_commune", "Code_postal", "Latitude",
 			"Longitude", "Libelle_acheminement", "Ligne_5" };
 
 	public ArrayList<Ville> findAllVilles() {
@@ -22,10 +22,12 @@ public class VilleDAOImpl implements VilleDAO {
 
 		String requete = "SELECT * FROM ville_france";
 		Connection con = JDBCConfiguration.getConnection();
+		Statement stmt = null;
+		ResultSet rs = null;
 
 		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(requete);
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(requete);
 			while (rs.next()) {
 				Ville ville = new Ville();
 				ville.setCodeCommune(rs.getString("code_commune_insee"));
@@ -37,15 +39,18 @@ public class VilleDAOImpl implements VilleDAO {
 				ville.setLigne_5(rs.getString("ligne_5"));
 				villes.add(ville);
 			}
-			rs.close();
-			stmt.close();
-			con.close();
-			return villes;
 		} catch (SQLException e) {
-			System.out.println("Une erreur s'est produite.");
-			return null;
+			// System.out.println("Une erreur s'est produite.");
+		} finally {
+			try {
+				rs.close();
+				stmt.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
+		return villes;
 	}
 
 	@Override
@@ -76,10 +81,12 @@ public class VilleDAOImpl implements VilleDAO {
 		if (conditionSQL) {
 			requeteFinale += requeteWhere;
 		}
+		Statement stmt = null;
+		ResultSet rs = null;
 
 		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(requeteFinale);
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(requeteFinale);
 			while (rs.next()) {
 				Ville ville1 = new Ville();
 				ville1.setCodeCommune(rs.getString("code_commune_insee"));
@@ -91,14 +98,18 @@ public class VilleDAOImpl implements VilleDAO {
 				ville1.setLigne_5(rs.getString("ligne_5"));
 				villes.add(ville1);
 			}
-			rs.close();
-			stmt.close();
-			con.close();
-			return villes;
 		} catch (SQLException e) {
-			System.out.println("Une erreur s'est produite.");
-			return null;
+			// System.out.println("Une erreur s'est produite.");
+		} finally {
+			try {
+				rs.close();
+				stmt.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		return villes;
 	}
 
 	@Override
@@ -106,6 +117,7 @@ public class VilleDAOImpl implements VilleDAO {
 
 		String requete = "INSERT INTO ville_france (";
 		Connection con = JDBCConfiguration.getConnection();
+		boolean booleanRequete = false;
 
 		for (String attribut : ATTRIBUTS_VILLE) {
 			requete += "" + attribut + ",";
@@ -130,16 +142,23 @@ public class VilleDAOImpl implements VilleDAO {
 		requete = requete.substring(0, requete.length() - 1);
 		requete += ")";
 
+		Statement stmt = null;
 		try {
-			Statement stmt = con.createStatement();
+			stmt = con.createStatement();
 			stmt.executeUpdate(requete);
-			stmt.close();
-			con.close();
-			return true;
+			booleanRequete = true;
 		} catch (SQLException e) {
-			System.out.println("Une erreur s'est produite.");
-			return false;
+			// System.out.println("Une erreur s'est produite.");
+			booleanRequete = false;
+		} finally {
+			try {
+				stmt.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		return booleanRequete;
 	}
 
 	private String checkNull(String string) {
@@ -156,6 +175,7 @@ public class VilleDAOImpl implements VilleDAO {
 
 	@Override
 	public boolean modifVille(Ville ville) {
+		boolean booleanRequete = false;
 		String requete = "UPDATE ville_france SET ";
 		String requeteWhere = " WHERE Code_commune_INSEE = '" + ville.getCodeCommune() + "'";
 
@@ -175,22 +195,30 @@ public class VilleDAOImpl implements VilleDAO {
 				conditionSQL = true;
 			}
 		}
+		Statement stmt = null;
 		try {
-			Statement stmt = con.createStatement();
+			stmt = con.createStatement();
 			stmt.executeUpdate(requete + requeteWhere);
-			stmt.close();
-			con.close();
-			return true;
+			booleanRequete = true;
 		} catch (SQLException e) {
-			System.out.println("Une erreur s'est produite.");
-			return false;
+			// System.out.println("Une erreur s'est produite.");
+			booleanRequete = false;
+		} finally {
+			try {
+				stmt.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		return booleanRequete;
 	}
 
 	// DELETE toutes les villes dont les caracteristiques correspondent à celle
 	// donnée en paramètre
 	@Override
 	public boolean deleteVille(Ville ville) {
+		boolean booleanRequete = false;
 		String requete = "DELETE FROM ville_france";
 		String requeteWhere = " WHERE ";
 
@@ -219,17 +247,23 @@ public class VilleDAOImpl implements VilleDAO {
 		}
 
 		System.out.println(requete + requeteWhere);
-		
+		Statement stmt = null;
 		try {
-			Statement stmt = con.createStatement();
+			stmt = con.createStatement();
 			stmt.executeUpdate(requeteFinale);
-			stmt.close();
-			con.close();
-			return true;
+			booleanRequete = true;
 		} catch (SQLException e) {
-			System.out.println("Une erreur s'est produite.");
-			return false;
+			// System.out.println("Une erreur s'est produite.");
+			booleanRequete = false;
+		} finally {
+			try {
+				stmt.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		return booleanRequete;
 	}
 
 }
