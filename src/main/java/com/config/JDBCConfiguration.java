@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.dao.VilleDAOImpl;
+import com.mysql.jdbc.Messages;
 
 @Configuration
 public class JDBCConfiguration {
@@ -23,14 +24,16 @@ public class JDBCConfiguration {
 
 		String BDD = "mavenseance1";
 		String url = "jdbc:mysql://localhost:3309/" + BDD;
-		String user = "root";
+		String user = Messages.getString("jdbc.user");
+		String pass = Messages.getString("jdbc.password");
+		
 		Connection connection = null;
 		// L'essaie de connexion à votre base de donées
 		try {
 			Class.forName(dbDriver);
 			// création de la connexion
 			// if(connection == null) {
-			connection = DriverManager.getConnection(url, user, "network");
+			connection = DriverManager.getConnection(url, user, pass);
 			// }
 		} catch (ClassNotFoundException e) {
 			logger.log(Priority.ERROR, "Error, classNotFound.");
