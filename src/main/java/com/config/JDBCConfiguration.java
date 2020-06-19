@@ -18,7 +18,7 @@ public class JDBCConfiguration {
 		String BDD = "mavenseance1";
 		String url = "jdbc:mysql://localhost:3309/" + BDD;
 		String user = "root";
-		String password = "";
+		String password = "network";
 		Connection connection = null;
 		// L'essaie de connexion à votre base de donées
 		try {
