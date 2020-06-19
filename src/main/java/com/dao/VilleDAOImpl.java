@@ -39,17 +39,19 @@ public class VilleDAOImpl implements VilleDAO {
 				ville.setLigne_5(rs.getString("ligne_5"));
 				villes.add(ville);
 			}
+			rs.close();
+			stmt.close();
+			con.close();
 		} catch (SQLException e) {
-			// System.out.println("Une erreur s'est produite.");
-		} finally {
 			try {
 				rs.close();
 				stmt.close();
 				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-		}
+		} 
 		return villes;
 	}
 
