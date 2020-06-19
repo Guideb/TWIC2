@@ -13,16 +13,15 @@ import org.springframework.stereotype.Repository;
 import com.config.JDBCConfiguration;
 import com.dto.Ville;
 
-import ch.qos.logback.classic.Level;
-
 @Repository
 public class VilleDAOImpl implements VilleDAO {
-	
+
 	private static Logger logger = Logger.getLogger(VilleDAOImpl.class.getName());
 
 	private static final String[] ATTRIBUTS_VILLE = { "Code_commune_INSEE", "Nom_commune", "Code_postal", "Latitude",
 			"Longitude", "Libelle_acheminement", "Ligne_5" };
 
+	@SuppressWarnings("deprecation")
 	public ArrayList<Ville> findAllVilles() {
 		ArrayList<Ville> villes = new ArrayList<Ville>();
 
@@ -47,13 +46,14 @@ public class VilleDAOImpl implements VilleDAO {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				logger.log(Priority.ERROR, "Error, couldn't close con1.");
 			}
 		}
 		return villes;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public ArrayList<Ville> findSomeVilles(Ville ville) {
 		ArrayList<Ville> villes = new ArrayList<Ville>();
@@ -101,13 +101,14 @@ public class VilleDAOImpl implements VilleDAO {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				logger.log(Priority.ERROR, "Error, couldn't close con2.");
 			}
 		}
 		return villes;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean addVille(Ville ville) {
 
@@ -149,6 +150,7 @@ public class VilleDAOImpl implements VilleDAO {
 				con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				logger.log(Priority.ERROR, "Error, couldn't close con3.");
 			}
 		}
 		return booleanRequete;
@@ -166,6 +168,7 @@ public class VilleDAOImpl implements VilleDAO {
 	// Modifie la ville dont le numero de commune est donné dans la ville en
 	// parametre et lui donnes les autres parametres donnés dans la ville.
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean modifVille(Ville ville) {
 		boolean booleanRequete = false;
@@ -199,6 +202,7 @@ public class VilleDAOImpl implements VilleDAO {
 				con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				logger.log(Priority.ERROR, "Error, couldn't close con4.");
 			}
 		}
 		return booleanRequete;
@@ -248,6 +252,7 @@ public class VilleDAOImpl implements VilleDAO {
 				con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				logger.log(Priority.ERROR, "Error, couldn't close con5.");
 			}
 		}
 		return booleanRequete;

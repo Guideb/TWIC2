@@ -4,15 +4,21 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.dao.VilleDAOImpl;
 
 @Configuration
 public class JDBCConfiguration {
 
+	private static Logger logger = Logger.getLogger(VilleDAOImpl.class.getName());
+
+	@SuppressWarnings("deprecation")
 	@Bean
 	public static Connection getConnection() {
-
 		String dbDriver = "com.mysql.jdbc.Driver";
 
 		String BDD = "mavenseance1";
@@ -23,15 +29,15 @@ public class JDBCConfiguration {
 		try {
 			Class.forName(dbDriver);
 			// création de la connexion
-            //if(connection == null) {
-            	connection = DriverManager.getConnection(url, user, "network");
-            //}
+			// if(connection == null) {
+			connection = DriverManager.getConnection(url, user, "network");
+			// }
 		} catch (ClassNotFoundException e) {
-			//System.out.println("Erreur pendant la récupération du driver (" + dbDriver + ")" + e);
 			e.printStackTrace();
+			logger.log(Priority.ERROR, "Error, classNotFound.");
 		} catch (SQLException e1) {
-			//System.out.println("Erreur pendant la creation de la connexion à la BDD." + e1);
 			e1.printStackTrace();
+			logger.log(Priority.ERROR, "Error, SqlException.");
 		}
 		return connection;
 	}
