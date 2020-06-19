@@ -39,19 +39,8 @@ public class VilleDAOImpl implements VilleDAO {
 				ville.setLigne_5(rs.getString("ligne_5"));
 				villes.add(ville);
 			}
-			rs.close();
-			stmt.close();
-			con.close();
 		} catch (SQLException e) {
-			try {
-				rs.close();
-				stmt.close();
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} 
+		}
 		return villes;
 	}
 
@@ -83,12 +72,8 @@ public class VilleDAOImpl implements VilleDAO {
 		if (conditionSQL) {
 			requeteFinale += requeteWhere;
 		}
-		Statement stmt = null;
-		ResultSet rs = null;
 
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(requeteFinale);
+		try (Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(requeteFinale);) {
 			while (rs.next()) {
 				Ville ville1 = new Ville();
 				ville1.setCodeCommune(rs.getString("code_commune_insee"));
@@ -102,14 +87,12 @@ public class VilleDAOImpl implements VilleDAO {
 			}
 		} catch (SQLException e) {
 			// System.out.println("Une erreur s'est produite.");
-		} finally {
-			try {
-				rs.close();
-				stmt.close();
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return villes;
 	}
