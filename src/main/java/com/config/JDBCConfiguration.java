@@ -18,14 +18,13 @@ public class JDBCConfiguration {
 		String BDD = "mavenseance1";
 		String url = "jdbc:mysql://localhost:3309/" + BDD;
 		String user = "root";
-		String password = "network";
 		Connection connection = null;
 		// L'essaie de connexion à votre base de donées
 		try {
 			Class.forName(dbDriver);
 			// création de la connexion
             //if(connection == null) {
-            	connection = DriverManager.getConnection(url, user, password);
+            	connection = DriverManager.getConnection(url, user, "network");
             //}
 		} catch (ClassNotFoundException e) {
 			//System.out.println("Erreur pendant la récupération du driver (" + dbDriver + ")" + e);

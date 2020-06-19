@@ -6,13 +6,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.springframework.stereotype.Repository;
 
 import com.config.JDBCConfiguration;
 import com.dto.Ville;
 
+import ch.qos.logback.classic.Level;
+
 @Repository
 public class VilleDAOImpl implements VilleDAO {
+	
+	private static Logger logger = Logger.getLogger(VilleDAOImpl.class.getName());
 
 	private static final String[] ATTRIBUTS_VILLE = { "Code_commune_INSEE", "Nom_commune", "Code_postal", "Latitude",
 			"Longitude", "Libelle_acheminement", "Ligne_5" };
@@ -36,6 +42,7 @@ public class VilleDAOImpl implements VilleDAO {
 				villes.add(ville);
 			}
 		} catch (SQLException e) {
+			logger.log(Priority.ERROR, "Error, couldn't get ville.");
 		} finally {
 			try {
 				con.close();
@@ -89,6 +96,7 @@ public class VilleDAOImpl implements VilleDAO {
 				villes.add(ville1);
 			}
 		} catch (SQLException e) {
+			logger.log(Priority.ERROR, "Error, couldn't getBis ville.");
 		} finally {
 			try {
 				con.close();
@@ -135,6 +143,7 @@ public class VilleDAOImpl implements VilleDAO {
 			booleanRequete = true;
 		} catch (SQLException e) {
 			booleanRequete = false;
+			logger.log(Priority.ERROR, "Error, couldn't add ville.");
 		} finally {
 			try {
 				con.close();
@@ -184,6 +193,7 @@ public class VilleDAOImpl implements VilleDAO {
 			booleanRequete = true;
 		} catch (SQLException e) {
 			booleanRequete = false;
+			logger.log(Priority.ERROR, "Error, couldn't modify ville.");
 		} finally {
 			try {
 				con.close();
@@ -196,6 +206,7 @@ public class VilleDAOImpl implements VilleDAO {
 
 	// DELETE toutes les villes dont les caracteristiques correspondent à celle
 	// donnée en paramètre
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean deleteVille(Ville ville) {
 		boolean booleanRequete = false;
@@ -231,6 +242,7 @@ public class VilleDAOImpl implements VilleDAO {
 			booleanRequete = true;
 		} catch (SQLException e) {
 			booleanRequete = false;
+			logger.log(Priority.ERROR, "Error, couldn't delete ville.");
 		} finally {
 			try {
 				con.close();
