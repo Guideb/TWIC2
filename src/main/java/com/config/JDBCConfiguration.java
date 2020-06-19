@@ -33,10 +33,8 @@ public class JDBCConfiguration {
 			connection = DriverManager.getConnection(url, user, "network");
 			// }
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 			logger.log(Priority.ERROR, "Error, classNotFound.");
 		} catch (SQLException e1) {
-			e1.printStackTrace();
 			logger.log(Priority.ERROR, "Error, SqlException.");
 		}
 		return connection;

@@ -46,7 +46,6 @@ public class VilleDAOImpl implements VilleDAO {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 				logger.log(Priority.ERROR, "Error, couldn't close con1.");
 			}
 		}
@@ -101,7 +100,6 @@ public class VilleDAOImpl implements VilleDAO {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 				logger.log(Priority.ERROR, "Error, couldn't close con2.");
 			}
 		}
@@ -149,7 +147,6 @@ public class VilleDAOImpl implements VilleDAO {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 				logger.log(Priority.ERROR, "Error, couldn't close con3.");
 			}
 		}
@@ -201,7 +198,6 @@ public class VilleDAOImpl implements VilleDAO {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 				logger.log(Priority.ERROR, "Error, couldn't close con4.");
 			}
 		}
@@ -251,7 +247,6 @@ public class VilleDAOImpl implements VilleDAO {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 				logger.log(Priority.ERROR, "Error, couldn't close con5.");
 			}
 		}
