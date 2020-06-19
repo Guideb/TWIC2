@@ -22,12 +22,8 @@ public class VilleDAOImpl implements VilleDAO {
 
 		String requete = "SELECT * FROM ville_france";
 		Connection con = JDBCConfiguration.getConnection();
-		Statement stmt = null;
-		ResultSet rs = null;
 
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(requete);
+		try (Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(requete);) {
 			while (rs.next()) {
 				Ville ville = new Ville();
 				ville.setCodeCommune(rs.getString("code_commune_insee"));
@@ -40,6 +36,13 @@ public class VilleDAOImpl implements VilleDAO {
 				villes.add(ville);
 			}
 		} catch (SQLException e) {
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return villes;
 	}
@@ -86,13 +89,13 @@ public class VilleDAOImpl implements VilleDAO {
 				villes.add(ville1);
 			}
 		} catch (SQLException e) {
-			// System.out.println("Une erreur s'est produite.");
-		}
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return villes;
 	}
@@ -127,17 +130,13 @@ public class VilleDAOImpl implements VilleDAO {
 		requete = requete.substring(0, requete.length() - 1);
 		requete += ")";
 
-		Statement stmt = null;
-		try {
-			stmt = con.createStatement();
+		try (Statement stmt = con.createStatement();) {
 			stmt.executeUpdate(requete);
 			booleanRequete = true;
 		} catch (SQLException e) {
-			// System.out.println("Une erreur s'est produite.");
 			booleanRequete = false;
 		} finally {
 			try {
-				stmt.close();
 				con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -180,17 +179,13 @@ public class VilleDAOImpl implements VilleDAO {
 				conditionSQL = true;
 			}
 		}
-		Statement stmt = null;
-		try {
-			stmt = con.createStatement();
+		try (Statement stmt = con.createStatement();) {
 			stmt.executeUpdate(requete + requeteWhere);
 			booleanRequete = true;
 		} catch (SQLException e) {
-			// System.out.println("Une erreur s'est produite.");
 			booleanRequete = false;
 		} finally {
 			try {
-				stmt.close();
 				con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -231,18 +226,13 @@ public class VilleDAOImpl implements VilleDAO {
 			requeteFinale += requeteWhere;
 		}
 
-		System.out.println(requete + requeteWhere);
-		Statement stmt = null;
-		try {
-			stmt = con.createStatement();
+		try (Statement stmt = con.createStatement();) {
 			stmt.executeUpdate(requeteFinale);
 			booleanRequete = true;
 		} catch (SQLException e) {
-			// System.out.println("Une erreur s'est produite.");
 			booleanRequete = false;
 		} finally {
 			try {
-				stmt.close();
 				con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
