@@ -1,8 +1,11 @@
 package com.config;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
@@ -10,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.dao.VilleDAOImpl;
-import com.mysql.jdbc.Messages;
 
 @Configuration
 public class JDBCConfiguration {
@@ -24,8 +26,8 @@ public class JDBCConfiguration {
 
 		String BDD = "mavenseance1";
 		String url = "jdbc:mysql://localhost:3309/" + BDD;
-		String user = Messages.getString("jdbc.user");
-		String pass = Messages.getString("jdbc.password");
+		String user = "root";
+		String pass = getPassword();
 		
 		Connection connection = null;
 		// L'essaie de connexion à votre base de donées
@@ -42,4 +44,20 @@ public class JDBCConfiguration {
 		}
 		return connection;
 	}
+	
+	@SuppressWarnings("deprecation")
+	private static String getPassword() {
+		Properties properties = new Properties();
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream fichierProperties = classLoader.getResourceAsStream("application.properties");
+		try {
+			properties.load(fichierProperties);
+			return properties.getProperty("jdbc.password");
+
+		} catch (IOException e) {
+			logger.log(Priority.ERROR, "Echec de la lecture du fichier de propriété : " + e.getMessage(), e);
+		}		
+		return null;
+	}
+	
 }
