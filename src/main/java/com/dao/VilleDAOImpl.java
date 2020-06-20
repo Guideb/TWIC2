@@ -31,32 +31,13 @@ public class VilleDAOImpl implements VilleDAO {
 	public ArrayList<Ville> findSomeVilles(Ville ville) {
 		String requete = "SELECT * FROM ville_france";
 		String requeteWhere = " WHERE ";
-		String[][] attributs = { ATTRIBUTS_VILLE,
-				{ ville.getCodeCommune(), ville.getNomCommune(), ville.getCodePostal(), ville.getLatitude(),
-						ville.getLongitude(), ville.getLibelleAcheminement(), ville.getLigne_5() } };
-
-		// Creation String condition
-		boolean conditionSQL = false;
-		for (int i = 0; i < attributs[0].length; i++) {
-			if (attributs[1][i] != null) {
-				if (conditionSQL) {
-					requeteWhere += "AND ";
-				}
-				requeteWhere += attributs[0][i] + "='" + attributs[1][i] + "' ";
-				conditionSQL = true;
-			}
-		}
-
-		// Assemblage des Strings requete
-		String requeteFinale = requete;
-		if (conditionSQL) {
-			requeteFinale += requeteWhere;
-		}
+		String requeteFinale = requeteBuilder(ville, requete, requeteWhere);
 
 		ArrayList<Ville> villes = getVilleWithRequete(requeteFinale);
 
 		return villes;
 	}
+
 
 	@Override
 	public boolean addVille(Ville ville) {
@@ -123,27 +104,7 @@ public class VilleDAOImpl implements VilleDAO {
 		String requete = "DELETE FROM ville_france";
 		String requeteWhere = " WHERE ";
 
-		String[][] attributs = { ATTRIBUTS_VILLE,
-				{ ville.getCodeCommune(), ville.getNomCommune(), ville.getCodePostal(), ville.getLatitude(),
-						ville.getLongitude(), ville.getLibelleAcheminement(), ville.getLigne_5() } };
-
-		// Creation String condition
-		boolean conditionSQL = false;
-		for (int i = 0; i < attributs[0].length; i++) {
-			if (attributs[1][i] != null) {
-				if (conditionSQL) {
-					requeteWhere += "AND ";
-				}
-				requeteWhere += attributs[0][i] + "='" + attributs[1][i] + "' ";
-				conditionSQL = true;
-			}
-		}
-
-		// Assemblage des Strings requete
-		String requeteFinale = requete;
-		if (conditionSQL) {
-			requeteFinale += requeteWhere;
-		}
+		String requeteFinale = requeteBuilder(ville, requete, requeteWhere);
 
 		return executeRequete(requeteFinale);
 
@@ -205,6 +166,31 @@ public class VilleDAOImpl implements VilleDAO {
 			return "'NULL',";
 		}
 
+	}
+	
+	private String requeteBuilder(Ville ville, String requete, String requeteWhere) {
+		String[][] attributs = { ATTRIBUTS_VILLE,
+				{ ville.getCodeCommune(), ville.getNomCommune(), ville.getCodePostal(), ville.getLatitude(),
+						ville.getLongitude(), ville.getLibelleAcheminement(), ville.getLigne_5() } };
+
+		// Creation String condition
+		boolean conditionSQL = false;
+		for (int i = 0; i < attributs[0].length; i++) {
+			if (attributs[1][i] != null) {
+				if (conditionSQL) {
+					requeteWhere += "AND ";
+				}
+				requeteWhere += attributs[0][i] + "='" + attributs[1][i] + "' ";
+				conditionSQL = true;
+			}
+		}
+
+		// Assemblage des Strings requete
+		String requeteFinale = requete;
+		if (conditionSQL) {
+			requeteFinale += requeteWhere;
+		}
+		return requeteFinale;
 	}
 
 }
